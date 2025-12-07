@@ -3,9 +3,12 @@ package tests;
 
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import pages.LoginPage;
 import pages.ProjectPage;
+import utils.BrowserMax;
 
+import static com.codeborne.selenide.Selenide.open;
 import static utils.utilsProperties.*;
 
 public class BaseTest {
@@ -15,8 +18,14 @@ public class BaseTest {
         Configuration.browser = "chrome";
         Configuration.timeout = 15000;
         Configuration.baseUrl = getBaseUrl();
-        Configuration.browserSize = "max";
+
     }
+    @BeforeEach
+    void setupEach() {
+        open("about:blank");
+        BrowserMax.maximizeToFullScreen();
+    }
+
 
     protected LoginPage openLoginPage() {
         return new LoginPage().open();

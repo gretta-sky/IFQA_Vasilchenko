@@ -14,7 +14,7 @@ public class ProjectPage {
     private final SelenideElement viewAllProjectsLink = $x("//a[contains(text(), 'View all projects') or contains(text(), 'Просмотр всех проектов')]")
             .as("Ссылка 'View all projects'");
     private final SelenideElement projectSearchInput = $x("//input[@id='project-filter-text']").as("Поле поиска проектов");
-    private final SelenideElement tasksCounter = $x("//span[contains(@class, 'results-count')]").as("Счетчик задач");
+    private final SelenideElement tasksCounter = $x("//div[@class='pager']//div[@class='showing']/span").as("Счетчик задач");
     private final SelenideElement createIssueButton = $x("//a[@id='create_link']").as("Кнопка 'Создать задачу'");
 
 
@@ -43,8 +43,6 @@ public class ProjectPage {
         return this;
     }
 
-
-
     private void checkProjectIsOpened(String projectName) {
 
         boolean isOpened = false;
@@ -61,12 +59,16 @@ public class ProjectPage {
         }
     }
 
-    // Метод для получения количества задач (остаётся без изменений)
+
+
+
+
+
+
     public int getTasksCount() {
         try {
             String counterText = tasksCounter.shouldBe(visible)
                     .getText();
-            System.out.println("Текст счетчика: " + counterText);
             return extractTotalCount(counterText);
         } catch (Exception e) {
             System.out.println("Не удалось получить счетчик задач: " + e.getMessage());
@@ -82,43 +84,31 @@ public class ProjectPage {
             } else if (text.contains("of")) {
                 String[] parts = text.split("of");
                 return Integer.parseInt(parts[1].trim());
-            } else if (text.contains("/")) {
-                String[] parts = text.split("/");
-                return Integer.parseInt(parts[1].trim());
             }
         } catch (Exception e) {
-            System.out.println("Ошибка парсинга счетчика: " + text);
+            System.out.println("Ошибка счетчика: " + text);
         }
         return 0;
     }
 
-    // Метод для создания задачи (упрощенный)
     public ProjectPage createNewTask(String summary) {
-        System.out.println("Создаем задачу: " + summary);
-
         createIssueButton.shouldBe(visible).click();
-        sleep(1000);
+        sleep(2000);
 
-        // Заполняем обязательные поля
         $x("//input[@id='summary']").shouldBe(visible).setValue(summary);
 
-        // Нажимаем кнопку создания
         $x("//input[@id='create-issue-submit']").click();
 
-        // Ждем создания
         sleep(3000);
 
-        // Проверяем успешность (можно проверить по уведомлению)
         if ($x("//div[contains(@class, 'aui-message-success')]").exists()) {
-            System.out.println("✅ Задача успешно создана");
+            System.out.println("Успешно");
         } else {
-            System.out.println("⚠️ Задача создана, но нет сообщения об успехе");
+            System.out.println("Неуспешно");
         }
 
         return this;
     }
-
-    // Метод для проверки, что страница проекта открыта
     public boolean isProjectPageOpened(String projectName) {
         try {
             return url().contains(projectName.toUpperCase()) ||
@@ -129,7 +119,7 @@ public class ProjectPage {
         }
     }
 
-    // Метод для получения текста счетчика
+
     public String getTasksCounterText() {
         return tasksCounter.shouldBe(visible).getText();
     }
