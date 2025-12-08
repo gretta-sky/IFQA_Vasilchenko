@@ -15,7 +15,7 @@ public class CheckCounter extends BaseTest {
 
         int initialCount = projectPage.getTasksCount();
 
-        assertTrue(initialCount > 0, "В проекте должны быть задачи");
+        assertTrue(initialCount > 0, "В проекте нет задач");
 
         String taskName = "Test Task " + System.currentTimeMillis();
 
@@ -29,7 +29,6 @@ public class CheckCounter extends BaseTest {
         assertEquals(initialCount + 1, newCount,
                         "Было: " + initialCount + ", стало: " + newCount);
 
-        // Дополнительная проверка текста счетчика
         String counterText = projectPage.getTasksCounterText();
 
 

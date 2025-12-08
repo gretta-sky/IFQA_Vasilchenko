@@ -1,10 +1,9 @@
-
 package tests;
 
 import org.junit.jupiter.api.Test;
 import pages.ProjectPage;
 import pages.TaskPage;
-
+import java.time.Duration;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,11 +15,7 @@ public class TestSeleniumATHomework extends BaseTest {
         ProjectPage projectPage = loginAndOpenProject();
         openAllTasksAndFilters();
         searchForTask();
-
-
         TaskPage taskPage = new TaskPage();
-
-
         String status = taskPage.getStatus();
         System.out.println("Статус задачи: " + status);
         assertTrue(status.equals("Сделать") ||
@@ -33,7 +28,6 @@ public class TestSeleniumATHomework extends BaseTest {
                         status.equals("IN PROGRESS"),
                 "Статус должен быть 'Сделать' или 'В работе'. Фактический: " + status);
 
-
         String version = taskPage.getAffectedVersion();
         System.out.println("Версия: " + version);
         assertEquals("Version 2.0", version,
@@ -43,9 +37,7 @@ public class TestSeleniumATHomework extends BaseTest {
 
     private void openAllTasksAndFilters() {
         String xpath = "//div[@id='full-issue-navigator']//a[@href='/issues/']";
-
-        $x(xpath).shouldBe(visible).click();
-        sleep(2000);
+        $x(xpath).shouldBe(visible, Duration.ofSeconds(5)).click();
     }
 
     private void searchForTask() {
@@ -53,9 +45,5 @@ public class TestSeleniumATHomework extends BaseTest {
                 .shouldBe(visible)
                 .setValue("TestSeleniumATHomework")
                 .pressEnter();
-
-        sleep(2000);
     }
-
-
 }
