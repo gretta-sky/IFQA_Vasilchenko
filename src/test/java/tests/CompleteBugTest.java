@@ -17,16 +17,13 @@ public class CompleteBugTest extends BaseTest {
         String bugTitle = "баг " + System.currentTimeMillis();
         String bugKey = createBugWithDetails(bugTitle);
         searchAndProcessBug(bugTitle, bugKey);
-
     }
     private ProjectPage executePreviousTests() {
         ProjectPage projectPage = loginAndOpenProject();
         assertTrue(title().contains("Test") || WebDriverRunner.url().contains("TEST"),
                 "Авторизация или открытие проекта не удалось");
-
         int initialCount = projectPage.getTasksCount();
         assertTrue(initialCount > 0, "В проекте нет задач");
-
         String taskName = "Test Task " + System.currentTimeMillis();
         projectPage.createNewTask(taskName);
         sleep(2000);
@@ -40,7 +37,6 @@ public class CompleteBugTest extends BaseTest {
         private String createBugWithDetails(String bugTitle) {
             $x("//a[@id='create_link']").shouldBe(visible).click();
             $x("//input[@id='summary' and @name='summary']").setValue(bugTitle);
-
             setDescriptionWithVisualCheck("баг");
             selectVersion("Version 2.0");
             $x("//textarea[@id='labels-textarea']").setValue("tratata");
@@ -49,9 +45,7 @@ public class CompleteBugTest extends BaseTest {
             selectTaskFromDropdown();
             SelectEpic();
             selectSeverityS0();
-
             $x("//input[@id='create-issue-submit']").shouldBe(visible, Duration.ofSeconds(5)).click();
-
             String successMessage = $x("//div[contains(@class, 'aui-message-success')]").shouldBe(visible, Duration.ofSeconds(5)).getText();
             return extractBugKey(successMessage);
         }
@@ -71,7 +65,6 @@ public class CompleteBugTest extends BaseTest {
         $("body").setValue(text);
         switchTo().defaultContent();
     }
-
     private void selectVersion(String version) {
         SelenideElement versionSelect = $("select#fixVersions");
         versionSelect.selectOptionByValue("10001");
@@ -80,7 +73,6 @@ public class CompleteBugTest extends BaseTest {
         SelenideElement versionSelect = $("select#versions");
         versionSelect.selectOptionByValue("10001");
     }
-
     private void setEnvironmentWithVisualCheck(String text) {
         String environmentVisualButton =
                 "//div[@id='environment-wiki-edit']//button[text()='Визуальный']";
@@ -88,7 +80,6 @@ public class CompleteBugTest extends BaseTest {
         if (!isActive) {
             $x(environmentVisualButton).click();
         }
-
         assertTrue($x(environmentVisualButton + "[@aria-pressed='true']").exists(),
                 "Кнопка 'Визуальный' в окружении не активна");
         $x("//div[@id='environment-wiki-edit']//iframe").shouldBe(visible);
@@ -109,7 +100,6 @@ public class CompleteBugTest extends BaseTest {
                 .click();
     }
         private void selectSeverityS0() {
-
             SelenideElement severitySelect = $("select#customfield_10400");
             severitySelect.selectOptionByValue("10104");
     }

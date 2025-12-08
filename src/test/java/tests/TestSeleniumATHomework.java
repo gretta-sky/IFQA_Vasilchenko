@@ -27,19 +27,15 @@ public class TestSeleniumATHomework extends BaseTest {
                         status.equals("TO DO") ||
                         status.equals("IN PROGRESS"),
                 "Статус должен быть 'Сделать' или 'В работе'. Фактический: " + status);
-
         String version = taskPage.getAffectedVersion();
         System.out.println("Версия: " + version);
         assertEquals("Version 2.0", version,
                 "В версиях должно быть 'Version 2.0'. Фактически: " + version);
-
     }
-
     private void openAllTasksAndFilters() {
         String xpath = "//div[@id='full-issue-navigator']//a[@href='/issues/']";
         $x(xpath).shouldBe(visible, Duration.ofSeconds(5)).click();
     }
-
     private void searchForTask() {
         $x("//input[@id='searcher-query']")
                 .shouldBe(visible)
