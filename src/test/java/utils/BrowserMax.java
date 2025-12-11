@@ -8,7 +8,6 @@ public class BrowserMax {
             try {
                 WebDriverRunner.getWebDriver().manage().window().maximize();
             } catch (Exception e) {
-                System.out.println("Использован стандартный метод максимизации");
                 WebDriverRunner.getWebDriver().manage().window().maximize();
             }
         }
