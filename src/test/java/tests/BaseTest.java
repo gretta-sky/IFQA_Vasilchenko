@@ -10,26 +10,30 @@ import io.restassured.specification.ResponseSpecification;
 import org.junit.jupiter.api.BeforeAll;
 
 public class BaseTest {
+    private static final String BASE_URI = "https://rickandmortyapi.com/api";
+    private static final ContentType CONTENT_TYPE = ContentType.JSON;
+    private static final LogDetail LOG_DETAIL = LogDetail.ALL;
+    private static final int EXPECTED_STATUS = 200;
 
     @BeforeAll
     public static void setUp() {
-        RestAssured.requestSpecification = getBaseRequestSpec();
-        RestAssured.responseSpecification = getBaseResponseSpec();
+        RestAssured.requestSpecification = createRequestSpec();
+        RestAssured.responseSpecification = createResponseSpec();
     }
 
-    private static RequestSpecification getBaseRequestSpec() {
+    private static RequestSpecification createRequestSpec() {
         return new RequestSpecBuilder()
-                .setBaseUri("https://rickandmortyapi.com/api")
-                .setContentType(ContentType.JSON)
-                .log(LogDetail.ALL)
+                .setBaseUri(BASE_URI)
+                .setContentType(CONTENT_TYPE)
+                .log(LOG_DETAIL)
                 .build();
     }
 
-    private static ResponseSpecification getBaseResponseSpec() {
+    private static ResponseSpecification createResponseSpec() {
         return new ResponseSpecBuilder()
-                .expectContentType(ContentType.JSON)
-                .expectStatusCode(200)
-                .log(LogDetail.ALL)
+                .expectContentType(CONTENT_TYPE)
+                .expectStatusCode(EXPECTED_STATUS)
+                .log(LOG_DETAIL)
                 .build();
     }
 }

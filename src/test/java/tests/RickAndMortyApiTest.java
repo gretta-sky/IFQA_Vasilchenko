@@ -28,28 +28,14 @@ class RickAndMortyApiTest extends BaseTest {
             Episode lastMortyEpisode = RickAndMortyApi.getEpisodeByUrl(lastEpisodeUrl);
             assertNotNull(lastMortyEpisode, "Эпизод не найден");
             Character lastCharacter = RickAndMortyApi.getLastCharacterFromEpisode(lastMortyEpisode);
-
             assertNotNull(lastCharacter, "Последний персонаж эпизода не найден!");
-            System.out.println("Найден: " + lastCharacter.getName() + " (ID: " + lastCharacter.getId() + ")");
-
-            System.out.println("\n4. Сравниваем характеристики:");
-            System.out.println("...");
-            System.out.printf("   %-20s | %-20s\n", "Морти Смит", lastCharacter.getName());
-            System.out.println("...");
-
             String mortySpecies = morty.getSpecies();
             String lastCharSpecies = lastCharacter.getSpecies();
-            System.out.printf("   Раса: %-17s | Раса: %-17s\n",
-                    mortySpecies != null ? mortySpecies : "null",
-                    lastCharSpecies != null ? lastCharSpecies : "null");
 
             String mortyLocation = morty.getLastKnownLocation() != null ?
                     morty.getLastKnownLocation().getName() : "null";
             String lastCharLocation = lastCharacter.getLastKnownLocation() != null ?
                     lastCharacter.getLastKnownLocation().getName() : "null";
-            System.out.printf("   Локация: %-14s | Локация: %-14s\n",
-                    mortyLocation, lastCharLocation);
-            System.out.println("...");
 
             assertNotNull(mortySpecies, "У Морти должна быть указана раса");
             assertNotNull(lastCharSpecies, "У последнего персонажа должна быть указана раса");
