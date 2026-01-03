@@ -8,23 +8,22 @@ import static com.codeborne.selenide.WebDriverRunner.url;
 public class ProjectPage {
 
     private final SelenideElement projectsMenu = $x("//a[@id='browse_link']").as("Меню 'Проекты'");
-    private final SelenideElement viewAllProjectsLink = $x("//a[contains(text(), 'View all projects') or contains(text(), 'Просмотр всех проектов')]")
-            .as("Ссылка 'View all projects'");
+    private final SelenideElement viewAllProjectsLink = $x("//a[contains(text(), 'View all projects') or contains(text(), 'Просмотр всех проектов')]").as("Ссылка 'View all projects'");
     private final SelenideElement projectSearchInput = $x("//input[@id='project-filter-text']").as("Поле поиска проектов");
     private final SelenideElement tasksCounter = $x("//div[@class='pager']//div[@class='showing']/span").as("Счетчик задач");
     private final SelenideElement createIssueButton = $x("//a[@id='create_link']").as("Кнопка 'Создать задачу'");
+    private final SelenideElement foundProject = $x("//a[@title='Test' and @data-track-click='projects.browse.project']");
+    private final SelenideElement Summary = $x("//input[@id='summary']").as("Summary");
+    private final SelenideElement Issuesubmit = $x("//input[@id='create-issue-submit']").as("Issue submit");
 
     public ProjectPage openProject(String projectName) {
-        System.out.println("Открываем проект: " + projectName);
         projectsMenu.shouldBe(visible, Duration.ofSeconds(5)).click();
         viewAllProjectsLink.shouldBe(visible, Duration.ofSeconds(5)).click();
         projectSearchInput.shouldBe(visible, Duration.ofSeconds(5))
                 .setValue(projectName)
                 .pressEnter();
         String projectKey = projectName.toUpperCase();
-        SelenideElement foundProject = $x(
-                "//a[@title='Test' and @data-track-click='projects.browse.project']"
-        ).shouldBe(visible, Duration.ofSeconds(5));
+        foundProject.shouldBe(visible, Duration.ofSeconds(5));
         foundProject.click();
         checkProjectIsOpened(projectName);
         return this;
@@ -65,8 +64,8 @@ public class ProjectPage {
     }
     public ProjectPage createNewTask(String summary) {
         createIssueButton.shouldBe(visible, Duration.ofSeconds(5)).click();
-        $x("//input[@id='summary']").shouldBe(visible, Duration.ofSeconds(5)).setValue(summary);
-        $x("//input[@id='create-issue-submit']").shouldBe(visible, Duration.ofSeconds(5)).click();
+        Summary.shouldBe(visible, Duration.ofSeconds(5)).setValue(summary);
+        Issuesubmit.shouldBe(visible, Duration.ofSeconds(5)).click();
         return this;
     }
     public String getTasksCounterText() {

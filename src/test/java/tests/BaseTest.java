@@ -12,6 +12,7 @@ import static utils.utilsProperties.*;
 public class BaseTest {
     @BeforeAll
     static void setup() {
+        String driverPath = System.getProperty("webdriver.chrome.driver");
         Configuration.browser = "chrome";
         Configuration.timeout = 15000;
         Configuration.baseUrl = getBaseUrl();

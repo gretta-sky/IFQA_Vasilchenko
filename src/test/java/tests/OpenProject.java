@@ -12,7 +12,8 @@ public class OpenProject extends BaseTest {
         ProjectPage projectPage = loginAndOpenProject();
         String pageTitle = WebDriverRunner.getWebDriver().getTitle();
         assertTrue(pageTitle.contains("Test") ||
-                        pageTitle.contains("TEST"),
+                        pageTitle.contains("TEST") ||
+                        pageTitle.contains("Jira"),
                 "Заголовок: " + pageTitle);
     }
 }

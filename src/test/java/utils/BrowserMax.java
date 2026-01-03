@@ -1,5 +1,6 @@
 package utils;
 
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 
 public class BrowserMax {
@@ -8,7 +9,7 @@ public class BrowserMax {
             try {
                 WebDriverRunner.getWebDriver().manage().window().maximize();
             } catch (Exception e) {
-                WebDriverRunner.getWebDriver().manage().window().maximize();
+                Configuration.browserSize = "1920x1080";
             }
         }
     }}

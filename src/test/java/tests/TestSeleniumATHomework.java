@@ -1,5 +1,6 @@
 package tests;
 
+import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.Test;
 import pages.ProjectPage;
 import pages.TaskPage;
@@ -9,6 +10,9 @@ import static com.codeborne.selenide.Selenide.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestSeleniumATHomework extends BaseTest {
+
+    private final SelenideElement AllTasksAndFilters = $x("//div[@id='full-issue-navigator']//a[@href='/issues/']").as("Все таски");
+    private final SelenideElement ForTask = $x("//input[@id='searcher-query']").as("Поиск таска");
 
     @Test
     void testTaskDetails() {
@@ -33,12 +37,10 @@ public class TestSeleniumATHomework extends BaseTest {
                 "В версиях должно быть 'Version 2.0'. Фактически: " + version);
     }
     private void openAllTasksAndFilters() {
-        String xpath = "//div[@id='full-issue-navigator']//a[@href='/issues/']";
-        $x(xpath).shouldBe(visible, Duration.ofSeconds(5)).click();
+        AllTasksAndFilters.shouldBe(visible, Duration.ofSeconds(5)).click();
     }
     private void searchForTask() {
-        $x("//input[@id='searcher-query']")
-                .shouldBe(visible)
+        ForTask.shouldBe(visible)
                 .setValue("TestSeleniumATHomework")
                 .pressEnter();
     }

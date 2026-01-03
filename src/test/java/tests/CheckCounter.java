@@ -1,12 +1,21 @@
 package tests;
 
+import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.Test;
 import pages.ProjectPage;
-import static com.codeborne.selenide.Selenide.refresh;
-import static com.codeborne.selenide.Selenide.sleep;
+
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$x;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.Duration;
+
 public class CheckCounter extends BaseTest {
+
+    private final SelenideElement projectsMenu = $x("//a[@id='browse_link']").as("Меню 'Проекты'");
+    private final SelenideElement viewAllProjectsLink = $x("//a[contains(text(), 'View all projects') or contains(text(), 'Просмотр всех проектов')]").as("Ссылка 'View all projects'");
+    private final SelenideElement Jira = $x("//img[@alt='Jira']").as("Главная страница");
+    private final SelenideElement foundTest = $x("//a[@original-title='Test']");
 
     @Test
     void testTaskCounterAfterCreation() {
@@ -15,9 +24,12 @@ public class CheckCounter extends BaseTest {
         assertTrue(initialCount > 0, "В проекте нет задач");
         String taskName = "Test Task " + System.currentTimeMillis();
         projectPage.createNewTask(taskName);
-        sleep(2000);
-        refresh();
-        sleep(3000);
+
+        Jira.shouldBe(visible, Duration.ofSeconds(5)).click();
+        projectsMenu.shouldBe(visible, Duration.ofSeconds(5)).click();
+        viewAllProjectsLink.shouldBe(visible, Duration.ofSeconds(5)).click();
+        foundTest.shouldBe(visible, Duration.ofSeconds(5)).click();
+
         int newCount = projectPage.getTasksCount();
         assertEquals(initialCount + 1, newCount,
                         "Было: " + initialCount + ", стало: " + newCount);
@@ -33,7 +45,8 @@ public class CheckCounter extends BaseTest {
             if (matcher.find()) {
                 return Integer.parseInt(matcher.group());
             }
-        } catch (Exception e) { //
+        } catch (Exception e) {
+            fail("Не удалось получить число");
         }
         return 0;
     }

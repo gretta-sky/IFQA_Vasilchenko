@@ -11,6 +11,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CompleteBugTest extends BaseTest {
 
+    private final SelenideElement projectsMenu = $x("//a[@id='browse_link']").as("Меню 'Проекты'");
+    private final SelenideElement viewAllProjectsLink = $x("//a[contains(text(), 'View all projects') or contains(text(), 'Просмотр всех проектов')]").as("Ссылка 'View all projects'");
+    private final SelenideElement Jira = $x("//img[@alt='Jira']").as("Пле поиска проектов");
+    private final SelenideElement foundTest = $x("//a[@original-title='Test']");
+    private final SelenideElement CreateLink = $x("//a[@id='create_link']");
+    private final SelenideElement Summary = $x("//input[@id='summary' and @name='summary']");
+    private final SelenideElement Textarea = $x("//textarea[@id='labels-textarea']");
+    private final SelenideElement IssueSubmit = $x("//input[@id='create-issue-submit']");
+    private final SelenideElement MessageSuccess = $x("//div[contains(@class, 'aui-message-success')]");
+    private final SelenideElement WikiEdit = $x("//div[@id='description-wiki-edit']//iframe");
+    private final SelenideElement EnvironmentWikiEdit = $x("//div[@id='environment-wiki-edit']//iframe");
+    private final SelenideElement dropdownIconXpath = $x("//div[@id='issuelinks-issues-multi-select']//span[contains(@class, 'drop-menu')]");
+    private final SelenideElement dropdownSelectXpath = $x("//input[@id='customfield_10100-field' and @role='combobox']");
+    private final SelenideElement IssueNavigator = $x("//div[@id='full-issue-navigator']//a[@href='/issues/']");
+    private final SelenideElement quickSearchInput = $x("//input[@id='quickSearchInput']");
+    private final SelenideElement IssueActionWorkflow = $x("//a[@id='action_id_11' and contains(@class, 'issueaction-workflow-transition')]");
+
     @Test
     void completeBugScenario() {
         ProjectPage projectPage = executePreviousTests();
@@ -26,30 +43,32 @@ public class CompleteBugTest extends BaseTest {
         assertTrue(initialCount > 0, "В проекте нет задач");
         String taskName = "Test Task " + System.currentTimeMillis();
         projectPage.createNewTask(taskName);
-        sleep(2000);
-        refresh();
-        sleep(3000);
+
+        Jira.shouldBe(visible, Duration.ofSeconds(5)).click();
+        projectsMenu.shouldBe(visible, Duration.ofSeconds(5)).click();
+        viewAllProjectsLink.shouldBe(visible, Duration.ofSeconds(5)).click();
+        foundTest.shouldBe(visible, Duration.ofSeconds(5)).click();
+
         int newCount = projectPage.getTasksCount();
         assertEquals(initialCount + 1, newCount,
                 "Счетчик не увеличился после создания задачи");
         return projectPage;
     }
         private String createBugWithDetails(String bugTitle) {
-            $x("//a[@id='create_link']").shouldBe(visible).click();
-            $x("//input[@id='summary' and @name='summary']").setValue(bugTitle);
+            CreateLink.shouldBe(visible).click();
+            Summary.setValue(bugTitle);
             setDescriptionWithVisualCheck("баг");
             selectVersion("Version 2.0");
-            $x("//textarea[@id='labels-textarea']").setValue("tratata");
+            Textarea.setValue("tratata");
             setEnvironmentWithVisualCheck("баг");
             selectVersions("Version 2.0");
             selectTaskFromDropdown();
             SelectEpic();
             selectSeverityS0();
-            $x("//input[@id='create-issue-submit']").shouldBe(visible, Duration.ofSeconds(5)).click();
-            String successMessage = $x("//div[contains(@class, 'aui-message-success')]").shouldBe(visible, Duration.ofSeconds(5)).getText();
+            IssueSubmit.shouldBe(visible, Duration.ofSeconds(5)).click();
+            String successMessage = MessageSuccess.shouldBe(visible, Duration.ofSeconds(5)).getText();
             return extractBugKey(successMessage);
         }
-
     private void setDescriptionWithVisualCheck(String text) {
         String descriptionVisualButton =
                 "//div[@id='description-wiki-edit']//button[text()='Визуальный']";
@@ -60,7 +79,7 @@ public class CompleteBugTest extends BaseTest {
         }
         assertTrue($x(descriptionVisualButton + "[@aria-pressed='true']").exists(),
                 "Кнопка 'Визуальный' в описании не активна!");
-        $x("//div[@id='description-wiki-edit']//iframe").shouldBe(visible);
+        WikiEdit.shouldBe(visible);
         switchTo().frame(0);
         $("body").setValue(text);
         switchTo().defaultContent();
@@ -82,21 +101,17 @@ public class CompleteBugTest extends BaseTest {
         }
         assertTrue($x(environmentVisualButton + "[@aria-pressed='true']").exists(),
                 "Кнопка 'Визуальный' в окружении не активна");
-        $x("//div[@id='environment-wiki-edit']//iframe").shouldBe(visible);
+        EnvironmentWikiEdit.shouldBe(visible);
         switchTo().frame($$("iframe").last());
         $("body").setValue(text);
         switchTo().defaultContent();
     }
     private void selectTaskFromDropdown() {
-        String dropdownIconXpath = "//div[@id='issuelinks-issues-multi-select']//span[contains(@class, 'drop-menu')]";
-        $x(dropdownIconXpath)
-                .shouldBe(visible)
+        dropdownIconXpath.shouldBe(visible)
                 .click();
     }
     private void SelectEpic() {
-        String dropdownSelectXpath = "//input[@id='customfield_10100-field' and @role='combobox']";
-        $x(dropdownSelectXpath)
-                .shouldBe(visible)
+        dropdownSelectXpath.shouldBe(visible)
                 .click();
     }
         private void selectSeverityS0() {
@@ -113,9 +128,8 @@ public class CompleteBugTest extends BaseTest {
             return "TEST-NEW";
         }
         private void searchAndProcessBug(String bugTitle, String bugKey) {
-            String xpath = "//div[@id='full-issue-navigator']//a[@href='/issues/']";
-            $x(xpath).shouldBe(visible, Duration.ofSeconds(5)).click();
-        $x("//input[@id='quickSearchInput']")
+            IssueNavigator.shouldBe(visible, Duration.ofSeconds(5)).click();
+            quickSearchInput
                 .shouldBe(visible)
                 .setValue(bugTitle)
                 .pressEnter();
@@ -145,7 +159,7 @@ public class CompleteBugTest extends BaseTest {
                 .click();
     }
     private void clickInProgressByXPath() {
-        $x("//a[@id='action_id_21' and contains(@class, 'issueaction-workflow-transition')]")
+        IssueActionWorkflow
                 .shouldBe(visible, Duration.ofSeconds(5))
                 .click();
     }
