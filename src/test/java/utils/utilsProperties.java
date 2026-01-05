@@ -25,4 +25,8 @@ public class utilsProperties {
     public static String getPassword() {
         return get("password");
     }
+
+    public static String getProjectName() {
+        return get("projectName");
+    }
 }

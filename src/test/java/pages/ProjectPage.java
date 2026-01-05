@@ -1,10 +1,12 @@
 package pages;
 
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebDriverRunner;
 import java.time.Duration;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.url;
+
 public class ProjectPage {
 
     private final SelenideElement projectsMenu = $x("//a[@id='browse_link']").as("Меню 'Проекты'");
@@ -15,6 +17,7 @@ public class ProjectPage {
     private final SelenideElement foundProject = $x("//a[@title='Test' and @data-track-click='projects.browse.project']");
     private final SelenideElement Summary = $x("//input[@id='summary']").as("Summary");
     private final SelenideElement Issuesubmit = $x("//input[@id='create-issue-submit']").as("Issue submit");
+    private final SelenideElement successMessage = $x("//div[contains(@class, 'aui-message-success')]").as("Сообщение об успехе");
 
     public ProjectPage openProject(String projectName) {
         projectsMenu.shouldBe(visible, Duration.ofSeconds(5)).click();
@@ -22,12 +25,12 @@ public class ProjectPage {
         projectSearchInput.shouldBe(visible, Duration.ofSeconds(5))
                 .setValue(projectName)
                 .pressEnter();
-        String projectKey = projectName.toUpperCase();
         foundProject.shouldBe(visible, Duration.ofSeconds(5));
         foundProject.click();
         checkProjectIsOpened(projectName);
         return this;
     }
+
     private void checkProjectIsOpened(String projectName) {
         boolean isOpened = false;
         String currentUrl = url().toLowerCase();
@@ -35,19 +38,20 @@ public class ProjectPage {
             isOpened = true;
         }
         if (!isOpened) {
-            throw new AssertionError("Проект '" + projectName + "' не открылся. " +"Текущий URL: " + url() + ", заголовок: " + title());
+            throw new AssertionError("Проект '" + projectName + "' не открылся. " +
+                    "Текущий URL: " + url() + ", заголовок: " + title());
         }
     }
-
     public int getTasksCount() {
         try {
             String counterText = tasksCounter.shouldBe(visible, Duration.ofSeconds(5))
                     .getText();
             return extractTotalCount(counterText);
         } catch (Exception e) {
-         return 0;
+            throw new AssertionError(" Нет числа тасков ");
         }
     }
+
     private int extractTotalCount(String text) {
         try {
             if (text.contains("из")) {
@@ -58,7 +62,7 @@ public class ProjectPage {
                 return Integer.parseInt(parts[1].trim());
             }
         } catch (Exception e) {
-            //
+            throw new AssertionError(" Не вышло выполнить экстракт числа ");
         }
         return 0;
     }
@@ -66,9 +70,20 @@ public class ProjectPage {
         createIssueButton.shouldBe(visible, Duration.ofSeconds(5)).click();
         Summary.shouldBe(visible, Duration.ofSeconds(5)).setValue(summary);
         Issuesubmit.shouldBe(visible, Duration.ofSeconds(5)).click();
+        try {
+            successMessage.shouldBe(visible, Duration.ofSeconds(10));
+        } catch (Exception e) {
+            if (!url().contains("browse") && !url().contains("TEST")) {
+                throw new AssertionError("Задача не была создана. Текущий URL: " + url());
+            }
+        }
         return this;
     }
     public String getTasksCounterText() {
         return tasksCounter.shouldBe(visible, Duration.ofSeconds(5)).getText();
+    }
+
+    public boolean isOnProjectPage(String projectName) {
+        return WebDriverRunner.url().toLowerCase().contains(projectName.toLowerCase());
     }
 }
