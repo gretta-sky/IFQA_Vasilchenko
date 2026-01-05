@@ -39,12 +39,10 @@ public class Hooks {
     @Before
     public void openBlankPage() {
         Selenide.open("about:blank");
-        System.out.println("Opened blank page");
     }
 
     @Before
     public void maximizeBrowser() {
-        System.out.println("Maximizing browser window...");
         maximizeToFullScreen();
     }
 
