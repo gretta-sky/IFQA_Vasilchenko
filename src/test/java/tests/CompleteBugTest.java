@@ -26,7 +26,7 @@ public class CompleteBugTest extends BaseTest {
     private final SelenideElement dropdownSelectXpath = $x("//input[@id='customfield_10100-field' and @role='combobox']");
     private final SelenideElement IssueNavigator = $x("//div[@id='full-issue-navigator']//a[@href='/issues/']");
     private final SelenideElement quickSearchInput = $x("//input[@id='quickSearchInput']");
-    private final SelenideElement IssueActionWorkflow = $x("//a[@id='action_id_11' and contains(@class, 'issueaction-workflow-transition')]");
+    private final SelenideElement issueActionWorkflow = $x("//a[@id='action_id_21' and contains(@class, 'issueaction-workflow-transition')]");
 
     @Test
     void completeBugScenario() {
@@ -159,20 +159,19 @@ public class CompleteBugTest extends BaseTest {
                 .click();
     }
     private void clickInProgressByXPath() {
-        IssueActionWorkflow
+        issueActionWorkflow
                 .shouldBe(visible, Duration.ofSeconds(5))
                 .click();
     }
     private void clickBusinessProcessDone() {
-        $x("//a[@id='opsbar-transitions_more']")
+        $x("//a[@id='opsbar-transitions_more' and contains(@class, 'aui-button') and contains(@class, 'aui-dropdown2-trigger')]")
                 .shouldBe(visible, Duration.ofSeconds(10))
                 .click();
-        $x("//*[@id='action_id_31']")
+        $x("//a[contains(@href, 'action=31') and @role='menuitem']")
                 .shouldBe(visible, Duration.ofSeconds(10))
                 .click();
-      }
     }
-
+}
 
 
 
