@@ -8,7 +8,6 @@ import io.cucumber.java.en.And;
 import pages.ProjectPage;
 import pages.LoginPage;
 import com.codeborne.selenide.WebDriverRunner;
-
 import java.time.Duration;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

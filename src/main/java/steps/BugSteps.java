@@ -8,7 +8,6 @@ import pages.ProjectPage;
 import pages.LoginPage;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
-
 import java.time.Duration;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
