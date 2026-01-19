@@ -2,8 +2,10 @@ package tests;
 
 import org.junit.jupiter.api.Test;
 import pages.LoginPage;
-import static utils.utilsProperties.*;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static utils.utilsProperties.getPassword;
+import static utils.utilsProperties.getUsername;
 
 public class Authorization extends BaseTest {
 
