@@ -1,9 +1,9 @@
-<h1 align="center">Автотесты сайта <a href="https://jira.atlassian.com/" target="_blank">Jira</a> 
+<h1 align="center">Автотестирование сайта <a href="https://jira.atlassian.com/" target="_blank">Jira</a> 
 <img src="https://images.icon-icons.com/2429/PNG/512/jira_logo_icon_147274.png" height="36"/>
 </h1>
 <h3 align="center">Учебный проект по автоматизированному тестирования веб-приложения Jira с использованием Java, Selenide, JUnit 5 и Allure.</h3>
 <hr>
-<h2 align="center">Технологический стек</h2>
+<h3 align="center">Технологический стек</h3>
 <h3 align="center"><li>
 Java 17 - язык программирования</li>
 
@@ -30,6 +30,7 @@ Java 17 - язык программирования</li>
 <li>Импортируйте в IntelliJIDEA</li></h3>
 <hr>
 <h3 align="center">Запуск тестов</h3>
+
 ```bash
 # Очистка и запуск всех тестов
 `mvn clean test`
@@ -38,4 +39,29 @@ Java 17 - язык программирования</li>
 # Сгенерировать и открыть отчёт в браузере
 `mvn allure:serve`
 # Очистить результаты предыдущих запусков
-`mvn clean````
+`mvn clean
+```
+<hr>
+<h3 align="center">Структура отчета Allure:</h3>
+<h3 align="center"><li>Overview - общая статистика по прогону</li>
+<li>Behaviors - группировка по эпикам и фичам</li>
+<li>Suites - список тестовых наборов</li>
+<li>Graphs - графики и диаграммы</li>
+<li>Timeline - временная шкала выполнения</li></h3>
+<hr>
+<h3 align="center">Возможные проблемы</h3>
+<h3 align="center"><li>"No compiler is provided in this environment"</li>
+1.Установите JDK 17 (не JRE)
+ 
+2.Проверьте JAVA_HOME переменную среды
+ <li>Тесты не видят Page Objects</li>
+1.Выполните mvn clean compile test-compile
+
+2.Перезапустите IntelliJ IDEA
+</h3>
+<hr>
+<h4 align="center">Авторы:</h4>
+<h4 align="center"><a href="https://github.com/gretta-sky" target="_blank">[Васильченко Маргарита]</a>  - mm8595284@mail.ru
+</h4>
+<h5>Последнее обновление README: январь 2026го</h5>
+<hr>
