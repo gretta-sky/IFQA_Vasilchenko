@@ -1,6 +1,10 @@
 package tests;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.Test;
 import pages.ProjectPage;
 import pages.TaskPage;
@@ -15,6 +19,10 @@ public class TestSeleniumATHomework extends BaseTest {
     private final SelenideElement ForTask = $x("//input[@id='searcher-query']").as("Поиск таска");
 
     @Test
+    @Epic("Web интерфейс")
+    @Feature("Проверка статуса и версии")
+    @Story("Успешная проверка")
+    @Description("Статус - в работе, версия 2.0")
     void testTaskDetails() {
         ProjectPage projectPage = loginAndOpenProject();
         openAllTasksAndFilters();

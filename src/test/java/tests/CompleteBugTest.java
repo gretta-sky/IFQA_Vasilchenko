@@ -2,6 +2,10 @@ package tests;
 
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.Test;
 import pages.ProjectPage;
 import java.time.Duration;
@@ -29,6 +33,10 @@ public class CompleteBugTest extends BaseTest {
     private final SelenideElement issueActionWorkflow = $x("//a[@id='action_id_21' and contains(@class, 'issueaction-workflow-transition')]");
 
     @Test
+    @Epic("Web интерфейс")
+    @Feature("Полный автотест")
+    @Story("Успешный автотест")
+    @Description("Проверка полного создания бага")
     void completeBugScenario() {
         ProjectPage projectPage = executePreviousTests();
         String bugTitle = "баг " + System.currentTimeMillis();

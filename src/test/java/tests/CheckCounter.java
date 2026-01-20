@@ -1,6 +1,10 @@
 package tests;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.Test;
 import pages.ProjectPage;
 
@@ -18,6 +22,10 @@ public class CheckCounter extends BaseTest {
     private final SelenideElement foundTest = $x("//a[@original-title='Test']");
 
     @Test
+    @Epic("Web интерфейс")
+    @Feature("Проверка счётчика")
+    @Story("Успешное изменение счётчика")
+    @Description("Проверка изменения счётчика при создании бага")
     void testTaskCounterAfterCreation() {
         ProjectPage projectPage = loginAndOpenProject();
         int initialCount = projectPage.getTasksCount();
