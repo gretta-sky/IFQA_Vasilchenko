@@ -11,17 +11,30 @@ public class LoginPage {
     private final SelenideElement passwordInput = $x("//input[@id='login-form-password']").as("Пароль");
     private final SelenideElement loginButton = $x("//input[@id='login-form-submit']").as("Подтвердить");
     private final SelenideElement errorMessage = $x("//div[contains(@class, 'aui-message-error')]").as("Ошибка пароля или логина");
+    private final SelenideElement fullname = $x("//a[@id='header-details-user-fullname']").as("Пользователь");
 
     public LoginPage open() {
         Selenide.open("/login.jsp");
         return this;
     }
     public ProjectPage login(String username, String password) {
-        usernameInput.shouldBe(visible).setValue(username);
-        passwordInput.setValue(password);
-        loginButton.click();
-        $x("//a[@id='header-details-user-fullname']").shouldBe(visible, Duration.ofSeconds(5));
+        enterUsername(username);
+        enterPassword(password);
+        clickLogin();
+        fullname.shouldBe(visible, Duration.ofSeconds(5));
         return new ProjectPage();
+    }
+
+    private void enterUsername(String username) {
+        usernameInput.shouldBe(visible).setValue(username);
+    }
+
+    private void enterPassword(String password) {
+        passwordInput.setValue(password);
+    }
+
+    private void clickLogin() {
+        loginButton.click();
     }
     public LoginPage loginWithInvalidCreds(String username, String password) {
         usernameInput.setValue(username);
@@ -31,6 +44,6 @@ public class LoginPage {
         return this;
     }
     public boolean isUserLoggedIn() {
-        return $("a#header-details-user-fullname").exists();
+        return fullname.exists();
     }
 }

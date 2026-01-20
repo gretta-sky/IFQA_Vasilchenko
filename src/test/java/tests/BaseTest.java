@@ -8,6 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import pages.LoginPage;
 import pages.ProjectPage;
 import utils.BrowserMax;
+import utils.utilsProperties;
+
 import static com.codeborne.selenide.Selenide.open;
 import static utils.utilsProperties.*;
 
@@ -19,15 +21,14 @@ public class BaseTest {
         Configuration.timeout = 15000;
         Configuration.baseUrl = getBaseUrl();
     }
-
     @BeforeAll
     public static void setUpAllure() {
-        SelenideLogger.addListener("AllureSelenide",
-                new AllureSelenide()
-                        .screenshots(false)
-                        .savePageSource(true)
-                        .includeSelenideSteps(true)
-        );
+        AllureSelenide allureSelenide = new AllureSelenide()
+                .screenshots(utilsProperties.getBoolean("allure.screenshots"))
+                .savePageSource(utilsProperties.getBoolean("allure.savePageSource"))
+                .includeSelenideSteps(utilsProperties.getBoolean("allure.includeSelenideSteps"));
+
+        SelenideLogger.addListener("AllureSelenide", allureSelenide);
     }
     @BeforeEach
     void setupEach() {
