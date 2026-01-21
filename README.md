@@ -1,4 +1,4 @@
-<h1 align="center">Автотестирование сайта <a href="https://jira.atlassian.com/" target="_blank">Jira</a> 
+<h1 align="center">Автотестирование сайта <a href="https://edujira.ifellow.ru" target="_blank">Jira</a> 
 <img src="https://images.icon-icons.com/2429/PNG/512/jira_logo_icon_147274.png" height="36"/>
 </h1>
 <h3 align="center">Учебный проект по автоматизированному тестирования веб-приложения Jira с использованием Java, Selenide, JUnit 5 и Allure.</h3>
@@ -41,8 +41,17 @@ Java 17 - язык программирования</li>
 # Очистить результаты предыдущих запусков
 `mvn clean
 ```
+
 <hr>
-<h3 align="center">Структура отчета Allure:</h3>
+<h3 align="center">Обозначение тестов</h3>
+<h3 align="center"><li>Authorization - авторизация на сайте Jira</li>
+<li>CheckCounter - проверка работоспособности счётчика при создании нового бага</li>
+<li>OpenProject - открытие заданного проекта</li>
+<li>TestSeleniumAtHomework - проверка статуса и версии задачи</li>
+<li>CompleteBugTest - полный путь создания бага до статуса "выполнено"</li></h3>
+<hr>
+<hr>
+<h3 align="center">Структура отчета Allure</h3>
 <h3 align="center"><li>Overview - общая статистика по прогону</li>
 <li>Behaviors - группировка по эпикам и фичам</li>
 <li>Suites - список тестовых наборов</li>
