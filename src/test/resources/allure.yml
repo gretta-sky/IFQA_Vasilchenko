@@ -6,7 +6,6 @@ allure:
   links:
     - type: custom
       name: Jira
-      url: https://jira.example.com/browse/{}
 
   attachments:
     include:
@@ -15,7 +14,7 @@ allure:
       - image/jpeg
       - application/json
 
-  # Плагины для фильтрации чувствительных данных
+  # плагины для фильтрации чувствительных данных
   plugins:
     - junit-xml-plugin
     - xunit-xml-plugin

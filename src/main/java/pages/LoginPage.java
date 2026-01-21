@@ -24,15 +24,16 @@ public class LoginPage {
         fullname.shouldBe(visible, Duration.ofSeconds(5));
         return new ProjectPage();
     }
-
     private void enterUsername(String username) {
         usernameInput.shouldBe(visible).setValue(username);
+        io.qameta.allure.Allure.getLifecycle().updateStep(step ->
+                step.setName("Ввести логин: ***"));
     }
-
     private void enterPassword(String password) {
         passwordInput.setValue(password);
+        io.qameta.allure.Allure.getLifecycle().updateStep(step ->
+                step.setName("Ввести пароль: ***"));
     }
-
     private void clickLogin() {
         loginButton.click();
     }

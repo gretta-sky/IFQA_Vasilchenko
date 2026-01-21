@@ -15,7 +15,6 @@ public class utilsProperties {
             throw new RuntimeException("Failed to load properties", e);
         }
     }
-
     static {
         loadProperties("allure.properties");
     }
@@ -36,7 +35,6 @@ public class utilsProperties {
     public static boolean getBoolean(String key) {
         return Boolean.parseBoolean(getProperty(key, "false"));
     }
-
     public static boolean getBoolean(String key, boolean defaultValue) {
         String value = getProperty(key);
         return value != null ? Boolean.parseBoolean(value) : defaultValue;
