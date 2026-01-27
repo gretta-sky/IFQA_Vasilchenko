@@ -3,8 +3,6 @@ package utils;
 import java.io.InputStream;
 import java.util.Properties;
 
-import static java.lang.System.getProperty;
-
 public class utilsProperties {
     private static final Properties properties = new Properties();
     static {
@@ -18,7 +16,6 @@ public class utilsProperties {
     static {
         loadProperties("allure.properties");
     }
-
     private static void loadProperties(String fileName) {
         try (InputStream input = utilsProperties.class.getClassLoader()
                 .getResourceAsStream(fileName)) {
@@ -32,14 +29,17 @@ public class utilsProperties {
         }
     }
 
-    public static boolean getBoolean(String key) {
-        return Boolean.parseBoolean(getProperty(key, "false"));
-    }
-    public static boolean getBoolean(String key, boolean defaultValue) {
-        String value = getProperty(key);
-        return value != null ? Boolean.parseBoolean(value) : defaultValue;
+    public static boolean getScreenshots() {
+        return Boolean.parseBoolean(get("allure.selenide.screenshots"));
     }
 
+    public static boolean getPageSource() {
+        return Boolean.parseBoolean(get("allure.selenide.savePageSource"));
+    }
+
+    public static boolean getSelenideSteps() {
+        return Boolean.parseBoolean(get("allure.selenide.includeSelenideSteps"));
+    }
     public static String get(String key) {
         return properties.getProperty(key);
     }

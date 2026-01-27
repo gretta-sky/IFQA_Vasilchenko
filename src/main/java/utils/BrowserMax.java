@@ -12,4 +12,5 @@ public class BrowserMax {
                 Configuration.browserSize = "1920x1080";
             }
         }
-    }}
+    }
+}
