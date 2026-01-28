@@ -36,7 +36,7 @@ public class ProjectPage {
     private final SelenideElement issueActionWorkflow = $x("//a[@id='action_id_21' and contains(@class, 'issueaction-workflow-transition')]").as("Переключение статуса");
     private final SelenideElement clickWorkflow = $x("//a[@id='action_id_11' and contains(@class, 'issueaction-workflow-transition')]").as("Переключение статуса");
     private final SelenideElement businessProcess = $x("//a[@id='opsbar-transitions_more' and contains(@class, 'aui-button') and contains(@class, 'aui-dropdown2-trigger')]").as("Статус 'В процессе'");
-    private final SelenideElement businessProcessDone = $x("//a[contains(@href, 'action=31') and @role='menuitem']").as("Статус выполнено");
+    private final SelenideElement businessProcessDone = $x("//aui-item-link[@id='action_id_31']").as("Статус выполнено");
     private final SelenideElement finalStatusFinal = $x("//span[contains(@class, 'jira-issue-status-lozenge')]").as("Статус выполнено в баге");
     private final SelenideElement versionSelectFix = $("select#fixVersions").as("Выбор версии");
     private final SelenideElement versionSelect = $("select#versions").as("Выбор версии");

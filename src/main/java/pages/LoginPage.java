@@ -2,6 +2,7 @@ package pages;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import java.time.Duration;
 import static com.codeborne.selenide.Condition.visible;
@@ -18,30 +19,33 @@ public class LoginPage {
         Selenide.open("/login.jsp");
         return this;
     }
-
     @Step("Ввести данные")
     public ProjectPage login(String username, String password) {
+        maskedPassword();
         enterUsername(username);
         enterPassword(password);
         clickLogin();
         fullname.shouldBe(visible, Duration.ofSeconds(5));
         return new ProjectPage();
     }
-
     @Step("Ввести логин")
     private void enterUsername(String username) {
         usernameInput.shouldBe(visible).setValue(username);
-        io.qameta.allure.Allure.getLifecycle().updateStep(step ->
-                step.setName("Ввести логин: ***"));
     }
-
     @Step("Ввести пароль")
     private void enterPassword(String password) {
+        maskedPassword();
         passwordInput.setValue(password);
-        io.qameta.allure.Allure.getLifecycle().updateStep(step ->
-                step.setName("Ввести пароль: ***"));
     }
 
+    public void maskedPassword() {
+        Allure.getLifecycle().updateStep(stepResult -> {
+                    stepResult.getParameters().stream()
+                            .filter(p -> "password".equals(p.getName()))
+                            .forEach(p -> p.setValue("******"));
+                }
+        );
+    }
     @Step("Авторизоваться")
     private void clickLogin() {
         loginButton.click();
