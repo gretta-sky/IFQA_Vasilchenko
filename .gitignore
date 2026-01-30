@@ -3,6 +3,8 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .kotlin
+.idea/
+.allure/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
@@ -37,3 +39,5 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/.idea/
+/.allure/

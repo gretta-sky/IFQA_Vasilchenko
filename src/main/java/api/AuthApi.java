@@ -2,19 +2,18 @@ package api;
 
 import io.restassured.response.Response;
 import models.Registration;
-
 import static io.restassured.RestAssured.given;
 
 public class AuthApi {
 
-    private static final String BASE_URL = "http://localhost:8080";
+    private static final String BASE_PATH = "/api";
 
     public static Response register(Registration request) {
         return given()
                 .contentType("application/json")
                 .body(request)
                 .when()
-                .post(BASE_URL + "/api/register");
+                .post(BASE_PATH + "/register");
     }
 
     public static Response login(Registration request) {
@@ -22,14 +21,14 @@ public class AuthApi {
                 .contentType("application/json")
                 .body(request)
                 .when()
-                .post(BASE_URL + "/api/login");
+                .post(BASE_PATH + "/login");
     }
 
     public static Response logout(String token) {
         return given()
                 .header("Authorization", token)
                 .when()
-                .get(BASE_URL + "/api/logout");
+                .get(BASE_PATH + "/logout");
     }
 
     public static Response logoutWithInvalidUUID() {
@@ -37,6 +36,6 @@ public class AuthApi {
         return given()
                 .header("Authorization", randomUUID)
                 .when()
-                .get(BASE_URL + "/api/logout");
+                .get(BASE_PATH + "/logout");
     }
 }

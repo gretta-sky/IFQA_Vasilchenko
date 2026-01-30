@@ -17,7 +17,6 @@ public class RickAndMortyApi {
                 .extract()
                 .as(Character.class);
     }
-
     public static Character getCharacterByName(String name) {
         Response response = given()
                 .queryParam("name", name)
@@ -37,7 +36,6 @@ public class RickAndMortyApi {
         int characterId = extractIdFromUrl(characterUrl);
         return getCharacterById(characterId);
     }
-
     public static Episode getEpisodeById(int id) {
         return given()
                 .when()
@@ -58,7 +56,6 @@ public class RickAndMortyApi {
         String[] parts = url.split("/");
         return Integer.parseInt(parts[parts.length - 1]);
     }
-
     public static Character getLastCharacterFromEpisode(Episode episode) {
         List<String> characterUrls = episode.getCharacters();
         if (characterUrls == null || characterUrls.isEmpty()) {

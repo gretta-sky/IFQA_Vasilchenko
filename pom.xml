@@ -13,12 +13,18 @@
   <url>http://www.example.com</url>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.release>17</maven.compiler.release>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <maven.compiler.release>17</maven.compiler.release>
       <maven.compiler.source>17</maven.compiler.source>
       <maven.compiler.target>17</maven.compiler.target>
-    <selenide.version>7.4.2</selenide.version>
-      <aspectj.version>1.9.22.1</aspectj.version>
+      <selenide.version>7.4.2</selenide.version>
+      <junit-platform-surefire-provider.version>1.1.0</junit-platform-surefire-provider.version>
+      <aspectj.version>1.9.24</aspectj.version>
+      <allure-junit5.version>2.29.1</allure-junit5.version>
+      <allure.version>2.25.0</allure.version>
+      <junit5.version>5.11.0</junit5.version>
+      <allure.maven.version>2.12.0</allure.maven.version>
+      <allure.results.directory>target/allure-results</allure.results.directory>
   </properties>
 
   <dependencyManagement>
@@ -26,10 +32,24 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>5.11.0</version>
+          <version>5.10.1</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-bom</artifactId>
+            <version>7.14.1</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-bom</artifactId>
+            <version>${allure.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -37,65 +57,125 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
-      <scope>test</scope>
     </dependency>
-    <!-- Optionally: parameterized tests support -->
+
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-params</artifactId>
-      <scope>test</scope>
     </dependency>
+
       <dependency>
           <groupId>com.codeborne</groupId>
           <artifactId>selenide</artifactId>
           <version>7.4.2</version>
-          <scope>test</scope>
       </dependency>
+
       <dependency>
           <groupId>io.github.bonigarcia</groupId>
           <artifactId>webdrivermanager</artifactId>
           <version>5.6.4</version>
-          <scope>test</scope>
       </dependency>
+
       <dependency>
           <groupId>io.rest-assured</groupId>
           <artifactId>rest-assured</artifactId>
           <version>5.4.0</version>
       </dependency>
+
       <dependency>
           <groupId>com.fasterxml.jackson.core</groupId>
           <artifactId>jackson-databind</artifactId>
           <version>2.17.2</version>
       </dependency>
+
       <dependency>
           <groupId>org.projectlombok</groupId>
           <artifactId>lombok</artifactId>
           <version>1.18.30</version>
           <scope>provided</scope>
       </dependency>
+
       <dependency>
           <groupId>org.aspectj</groupId>
           <artifactId>aspectjweaver</artifactId>
           <version>${aspectj.version}</version>
       </dependency>
+
       <dependency>
           <groupId>org.slf4j</groupId>
           <artifactId>slf4j-simple</artifactId>
           <version>2.0.7</version>
-          <scope>test</scope>
       </dependency>
+
+      <dependency>
+          <groupId>io.cucumber</groupId>
+          <artifactId>cucumber-java</artifactId>
+          <version>7.15.0</version>
+
+      </dependency>
+      <dependency>
+          <groupId>io.cucumber</groupId>
+          <artifactId>cucumber-junit-platform-engine</artifactId>
+          <version>7.15.0</version>
+
+      </dependency>
+      <dependency>
+          <groupId>org.junit.platform</groupId>
+          <artifactId>junit-platform-suite</artifactId>
+          <version>1.9.1</version>
+
+      </dependency>
+      <dependency>
+          <groupId>org.junit.jupiter</groupId>
+          <artifactId>junit-jupiter</artifactId>
+      </dependency>
+
+      <dependency>
+          <groupId>io.qameta.allure</groupId>
+          <artifactId>allure-junit5</artifactId>
+          <version>${allure-junit5.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>io.qameta.allure</groupId>
+          <artifactId>allure-java-commons</artifactId>
+          <version>2.29.1</version>
+      </dependency>
+
+      <dependency>
+          <groupId>io.qameta.allure</groupId>
+          <artifactId>allure-selenide</artifactId>
+      </dependency>
+
+      <dependency>
+          <groupId>io.qameta.allure</groupId>
+          <artifactId>allure-assertj</artifactId>
+      </dependency>
+
+      <dependency>
+          <groupId>org.json</groupId>
+          <artifactId>json</artifactId>
+          <version>20220924</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.junit.platform</groupId>
+          <artifactId>junit-platform-commons</artifactId>
+          <version>1.11.0</version>
+      </dependency>
+
   </dependencies>
 
   <build>
-    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
-      <plugins>
-        <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
-        <plugin>
+      <pluginManagement>
+          <plugins>
+
+              <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.4.0</version>
         </plugin>
-        <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
-        <plugin>
+
+              <plugin>
           <artifactId>maven-resources-plugin</artifactId>
           <version>3.3.1</version>
         </plugin>
@@ -119,8 +199,8 @@
           <artifactId>maven-deploy-plugin</artifactId>
           <version>3.1.2</version>
         </plugin>
-        <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
-        <plugin>
+
+              <plugin>
           <artifactId>maven-site-plugin</artifactId>
           <version>3.12.1</version>
         </plugin>
@@ -134,6 +214,18 @@
                       -Dfile.encoding=${project.build.sourceEncoding}
                       -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                   </argLine>
+                  <systemProperties>
+                      <property>
+                          <name>allure.results.directory</name>
+                          <value>${project.build.directory}/allure-results</value>
+                      </property>
+                  </systemProperties>
+                  <properties>
+                      <property>
+                          <name>listener</name>
+                          <value>io.qameta.allure.junit5.AllureJunit5</value>
+                      </property>
+                  </properties>
               </configuration>
               <dependencies>
                   <dependency>
@@ -143,7 +235,57 @@
                   </dependency>
               </dependencies>
           </plugin>
-          <plugin>
+
+              <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-compiler-plugin</artifactId>
+                  <version>3.13.0</version>
+                  <configuration>
+                      <source>17</source>
+                      <target>17</target>
+                      <encoding>UTF-8</encoding>
+                  </configuration>
+              </plugin>
+
+              <plugin>
+                  <groupId>io.qameta.allure</groupId>
+                  <artifactId>allure-maven</artifactId>
+                  <version>2.12.0</version>
+                  <configuration>
+                      <reportVersion>2.30.0</reportVersion>
+                      <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
+                  </configuration>
+                  <dependencies>
+                      <dependency>
+                          <groupId>org.apache.maven.plugins</groupId>
+                          <artifactId>maven-compiler-plugin</artifactId>
+                          <version>3.13.0</version>
+                      </dependency>
+                  </dependencies>
+              </plugin>
+              <plugin>
+                  <groupId>io.qameta.allure</groupId>
+                  <artifactId>allure-maven</artifactId>
+                  <version>${allure.maven.version}</version>
+                  <configuration>
+                      <reportVersion>${allure.version}</reportVersion>
+                      <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
+                      <reportDirectory>${project.build.directory}/allure-report</reportDirectory>
+                  </configuration>
+              </plugin>
+              <plugin>
+                  <groupId>io.qameta.allure</groupId>
+                  <artifactId>allure-maven</artifactId>
+                  <version>2.12.0</version>
+                  <configuration>
+                      <reportVersion>${allure.version}</reportVersion>
+                      <allureDownloadUrl>
+                          https://github.com/allure-framework/allure2/releases/download/${allure.version}/allure-${allure.version}.zip
+                      </allureDownloadUrl>
+                  </configuration>
+              </plugin>
+
+              <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-compiler-plugin</artifactId>
               <version>3.8.1</version>
@@ -151,4 +293,10 @@
       </plugins>
     </pluginManagement>
   </build>
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+    </repositories>
 </project>

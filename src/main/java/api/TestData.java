@@ -1,4 +1,4 @@
-package tests;
+package api;
 
 public class TestData {
     public static final String MORTY_SMITH_NAME = "Morty Smith";
