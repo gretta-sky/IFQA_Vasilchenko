@@ -7,7 +7,6 @@ import io.cucumber.java.en.Then;
 import io.qameta.allure.Step;
 import models.Character;
 import models.Episode;
-
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

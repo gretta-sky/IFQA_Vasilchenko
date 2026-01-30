@@ -10,12 +10,12 @@ import io.restassured.response.Response;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.Registration;
 import api.AuthApi;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static utils.utilsProperties.*;
 
 public class AuthApiSteps {
 
@@ -48,26 +48,47 @@ public class AuthApiSteps {
     }
 
     @Step("Проверка статус кода")
-    @Then("Статус код ответа должен быть {int}")
-    public void statusCodeShouldBe(int expectedStatusCode) {
+    @Then("Статус код ответа должен быть неуспешным")
+    public void statusCodeShouldBeNeg() {
+        int expectedStatusCodeNeg = getExpStatusNeg();
+        int actualStatusCode = lastResponse.statusCode();
+        assertEquals(expectedStatusCodeNeg, actualStatusCode,
+                "Ожидался статус код " + expectedStatusCodeNeg + ", но получен " + actualStatusCode);
+    }
+
+    @Step("Проверка статус кода")
+    @Then("Статус код ответа должен быть успешным")
+    public void statusCodeShouldBe() {
+        int expectedStatusCode = getExpStatus();
         int actualStatusCode = lastResponse.statusCode();
         assertEquals(expectedStatusCode, actualStatusCode,
                 "Ожидался статус код " + expectedStatusCode + ", но получен " + actualStatusCode);
     }
 
     @Step("Проверка тела ответа")
-    @Then("Тело ответа должно содержать {string}")
-    public void responseBodyShouldContain(String expectedText) {
+    @Then("Тело ответа должно содержать успех")
+    public void responseBodyShouldContainSuccess() {
+        String expectedTextSuccess = getExpBodySuccess();
         String actualBody = lastResponse.getBody().asString();
-        assertTrue(actualBody.contains(expectedText),
-                "Ожидалось, что тело ответа содержит '" + expectedText + "', но получено: " + actualBody);
+        assertTrue(actualBody.contains(expectedTextSuccess),
+                "Ожидалось, что тело ответа содержит '" + expectedTextSuccess + "', но получено: " + actualBody);
+    }
+
+    @Step("Проверка тела ответа")
+    @Then("Тело ответа должно содержать не найдено")
+    public void responseBodyShouldContainNeg() {
+        String expectedTextNeg = getExpBodeNeg();
+        String actualBody = lastResponse.getBody().asString();
+        assertTrue(actualBody.contains(expectedTextNeg),
+                "Ожидалось, что тело ответа содержит '" + expectedTextNeg + "', но получено: " + actualBody);
     }
 
     @Step("Предусловие: пользователь успешно зарегистрирован")
     @Given("Пользователь успешно зарегистрирован")
     public void userSuccessfullyRegistered() {
+        int expectedStatus = getExpStatus();
         lastResponse = AuthApi.register(validCredentials);
-        assertEquals(200, lastResponse.statusCode(),
+        assertEquals(expectedStatus, lastResponse.statusCode(),
                 "Регистрация должна быть успешной перед тестом авторизации");
     }
 
@@ -121,8 +142,9 @@ public class AuthApiSteps {
     @Step("Предусловие: пользователь успешно авторизован")
     @Given("Пользователь успешно авторизован")
     public void userSuccessfullyLoggedIn() {
+        int expectedStatus = getExpStatus();
         lastResponse = AuthApi.login(validCredentials);
-        assertEquals(200, lastResponse.statusCode(),
+        assertEquals(expectedStatus, lastResponse.statusCode(),
                 "Авторизация должна быть успешной перед тестом выхода");
         String responseBody = lastResponse.getBody().asString();
         String tokenWithPrefix = responseBody.substring("token : ".length()).trim();

@@ -3,7 +3,6 @@ package api;
 import io.restassured.response.Response;
 import models.Character;
 import models.Episode;
-
 import java.util.List;
 
 import static io.restassured.RestAssured.given;

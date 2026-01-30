@@ -47,8 +47,20 @@ public class utilsProperties {
         return get("name.search");
     }
 
+    public static String getExpBodySuccess() {
+        return get("exp.body.success");
+    }
+
+    public static String getExpBodeNeg() {
+        return get("exp.body.neg");
+    }
+
     public static Integer getExpStatus() {
         return Integer.parseInt(get("exp.success.status"));
+    }
+
+    public static Integer getExpStatusNeg() {
+        return Integer.parseInt(get("exp.neg.status"));
     }
 
     public static String get(String key) {

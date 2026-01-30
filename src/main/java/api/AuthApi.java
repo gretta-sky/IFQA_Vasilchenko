@@ -2,6 +2,7 @@ package api;
 
 import io.restassured.response.Response;
 import models.Registration;
+
 import static io.restassured.RestAssured.given;
 
 public class AuthApi {
